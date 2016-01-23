@@ -50,9 +50,11 @@ angular.module('core').controller('HomeController', ['$scope','$http', '$mdToast
             $http.post('/sendmail', mailData).success(function(response) {
                     sendMail(mailData.contactName);
  					// mailData = '';
-                }).error(function(response) {
+                    console.log(response);
+                }).error(function(error) {
                 	sendMail(mailData.contactName);
-                    $scope.error = response.message;
+                    $scope.error = error.message;
+                    console.log(error);
                 });
         };
         
