@@ -46,18 +46,16 @@ angular.module('core').controller('HomeController', ['$scope','$http', '$mdToast
                 contactEmail : this.contactEmail,
                 contactMsg : this.contactMsg
             });
-
- 			console.log('hello', mailData);
             // Simple POST request example (passing data) :
-            $http.post('/', mailData).success(function(response) {
-                    // this callback will be called asynchronously
-                    // when the response is available
-                    console.log('response', response);
+            $http.post('/sendmail', mailData).success(function(response) {
+                    sendMail(mailData.contactName);
  					// mailData = '';
-                }).error(function() {
-                    // $scope.error = response.message; 
+                }).error(function(response) {
+                	sendMail(mailData.contactName);
+                    $scope.error = response.message;
                 });
         };
+        
         //3. we decide where the toast will display on the view
             $scope.toastPosition = {
                 bottom: false,
@@ -74,10 +72,11 @@ angular.module('core').controller('HomeController', ['$scope','$http', '$mdToast
             };
  
             //1. The send button will call this method
-            this.sendMail = function() {
+            var sendMail = function(contactName) {
+            	console.log('$mdToast.show');
                 $mdToast.show(
                     $mdToast.simple()
-                        .content('Thanks for your Message ' + this.contactName + ' You Rock!')
+                        .content('Thanks for your Message ' + contactName + ' You Rock!')
                         .position($scope.getToastPosition())
                         .hideDelay(3000)
                 );
