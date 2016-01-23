@@ -19,14 +19,12 @@ exports.index = function(req, res) {
 exports.sendMail = function(req, res) {
  
     var mailData = req.body;
-    console.log('hello1', req.body);
+    transporter.sendMail({
+        from: mailData.contactEmail,
+        to: 'atumachimelawilliam@gmail.com',
+        subject: 'Message from ' + mailData.contactName,
+        text: mailData.contactMsg
+    });
  
-    // transporter.sendMail({
-    //     from: data.contactEmail,
-    //     to: 'atumachimelawilliam@gmail.com',
-    //     subject: 'Message from ' + data.contactName,
-    //     text: data.contactMsg
-    // });
- 
-    // res.json(data);
+    res.json(mailData);
 };
