@@ -6,7 +6,7 @@ angular.module('core').controller('HomeController', ['$scope','$http', '$mdToast
 		$scope.authentication = Authentication;
 		$scope.isCollapsed = false;
 		// $scope.hideMrk = true;
-
+        $scope.user = {};
 		$scope.menu = Menus.getMenu('topbar');
 
 		$scope.toggleCollapsibleMenu = function() {
@@ -42,19 +42,18 @@ angular.module('core').controller('HomeController', ['$scope','$http', '$mdToast
         $scope.sendMail = function () {
  
             var mailData = ({
-                contactName : this.contactName,
-                contactEmail : this.contactEmail,
-                contactMsg : this.contactMsg
+                contactName : $scope.user.contactName,
+                contactEmail : $scope.user.contactEmail,
+                contactMsg : $scope.user.contactMsg
             });
             // Simple POST request example (passing data) :
             $http.post('/sendmail', mailData).success(function(response) {
                     sendMail(mailData.contactName);
  					// mailData = '';
-                    console.log(response);
+                   $scope.user = {};
                 }).error(function(error) {
                 	sendMail(mailData.contactName);
                     $scope.error = error.message;
-                    console.log(error);
                 });
         };
         
